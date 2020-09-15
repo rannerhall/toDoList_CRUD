@@ -3,7 +3,6 @@ package com.todolist.demo.controller;
 import com.todolist.demo.exception.RecordNotFoundException;
 import com.todolist.demo.model.TodoItem;
 import com.todolist.demo.service.TodoItemService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,8 +16,11 @@ import java.util.Optional;
 @RequestMapping("/")
 public class TodoItemController {
 
-    @Autowired
-    private TodoItemService todoItemService;
+    private final TodoItemService todoItemService;
+
+    public TodoItemController(TodoItemService todoItemService) {
+        this.todoItemService = todoItemService;
+    }
 
     @RequestMapping
     public String getAllTodoItems(Model model) {

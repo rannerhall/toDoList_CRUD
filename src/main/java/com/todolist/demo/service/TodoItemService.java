@@ -3,11 +3,9 @@ package com.todolist.demo.service;
 import com.todolist.demo.exception.RecordNotFoundException;
 import com.todolist.demo.model.TodoItem;
 import com.todolist.demo.repository.TodoItemRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -15,15 +13,18 @@ import java.util.Optional;
 @Service
 public class TodoItemService {
 
-    @Autowired
-    private TodoItemRepository todoItemRepository;
+    private final TodoItemRepository todoItemRepository;
+
+    public TodoItemService(TodoItemRepository todoItemRepository) {
+        this.todoItemRepository = todoItemRepository;
+    }
 
     public List<TodoItem> getAllTodoItems() {
         List<TodoItem> todoItemList = todoItemRepository.findAll();
         if (!todoItemList.isEmpty()) {
             return todoItemList;
         } else {
-            return new ArrayList<>();
+            return List.of();
         }
     }
 
