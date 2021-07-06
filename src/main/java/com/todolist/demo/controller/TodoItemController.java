@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,7 +18,9 @@ import java.util.Optional;
 public class TodoItemController {
 
     private final TodoItemService todoItemService;
+    private static final String TODO_ITEM = "todoItem";
 
+    @Inject
     public TodoItemController(TodoItemService todoItemService) {
         this.todoItemService = todoItemService;
     }
@@ -30,12 +33,12 @@ public class TodoItemController {
     }
 
     @RequestMapping(path = {"/edit", "/edit/{id}"})
-    public String editTodoItemById(Model model, @PathVariable("id") Optional<Long> itemId) throws RecordNotFoundException {
+    public String editTodoItemById(Model model, @PathVariable("id") Optional<Long> itemId) {
         if (itemId.isPresent()) {
             Optional<TodoItem> todoItem = todoItemService.getTodoItemById(itemId.get());
-            model.addAttribute("todoItem", todoItem);
+            model.addAttribute(TODO_ITEM, todoItem);
         } else {
-            model.addAttribute("todoItem", new TodoItem());
+            model.addAttribute(TODO_ITEM, new TodoItem());
         }
         return "add-edit-todoItem";
     }

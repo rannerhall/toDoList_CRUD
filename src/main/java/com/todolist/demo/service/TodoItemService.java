@@ -6,6 +6,7 @@ import com.todolist.demo.repository.TodoItemRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.inject.Inject;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +16,7 @@ public class TodoItemService {
 
     private final TodoItemRepository todoItemRepository;
 
+    @Inject
     public TodoItemService(TodoItemRepository todoItemRepository) {
         this.todoItemRepository = todoItemRepository;
     }
@@ -41,7 +43,6 @@ public class TodoItemService {
             Optional<TodoItem> todoItemToUpdate = todoItemRepository.findById(todoItem.getItemId());
             if (todoItemToUpdate.isPresent()) {
                 TodoItem newTodoItem = todoItemToUpdate.get();
-                newTodoItem.setTaskName(todoItem.getTaskName());
                 newTodoItem.setCreatedDate(new Date());
                 todoItemRepository.save(newTodoItem);
             } else {
